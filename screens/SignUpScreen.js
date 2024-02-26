@@ -14,7 +14,7 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
 
   const handleSignUp = () => {
-    navigation.navigate("Deposit");
+    navigation.navigate("Menu");
   };
 
   return (

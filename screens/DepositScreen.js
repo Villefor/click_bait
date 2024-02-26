@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { useAppContext, actionTypes } from "../context/context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
 const DepositScreen = () => {
+  const { state, dispatch } = useAppContext();
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
 
@@ -12,6 +14,15 @@ const DepositScreen = () => {
   const handleSignUp = () => {
     // Logic to handle sign-up
   };
+
+  const setValues = () => {
+    dispatch({ type: actionTypes.SET_VALUES, payload: "newValue" });
+  };
+
+  const eraseValues = () => {
+    dispatch({ type: actionTypes.SET_VALUES, payload: null });
+  };
+
 
   const handleAddValue = (amount) => {
     const newValue = +value + amount; // Using unary plus operator
@@ -22,7 +33,11 @@ const DepositScreen = () => {
     setValue(newValue.toString());
     setError(false);
   };
-  
+
+  const handleResetValue = () => {
+    setValue('');
+    setError(false);
+  };
 
   return (
     <LinearGradient
@@ -36,19 +51,6 @@ const DepositScreen = () => {
       <Text style={styles.header}>Selecione o valor para o seu primeiro depósito.</Text>
       <Text style={styles.amount}>R$ {value}</Text>
       {error && <Text style={styles.error}>Por favor, não exceda o valor de 999 reais</Text>}
-      <TextInput
-        style={styles.input}
-        keyboardType="numeric"
-        placeholder="Digite o valor"
-        onChangeText={(text) => {
-          const newValue = parseInt(text);
-          if (!isNaN(newValue) && newValue <= 999) {
-            setValue(text);
-            setError(false);
-          }
-        }}
-        value={value}
-      />
       <Text style={styles.error}>Max. R$ 999,99/mês</Text>
       <View style={styles.buttonsContainer}>
         <TouchableOpacity onPress={() => handleAddValue(50)} style={styles.buttons}>
@@ -61,6 +63,9 @@ const DepositScreen = () => {
           <Text style={styles.buttonText}>+ R$ 700.00</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={handleResetValue} style={styles.input}>
+        <Text style={styles.inputText}>Zerar valor</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleSignUp} style={styles.createButton}>
         <Text style={styles.createButtonText}>Pagar com pix</Text>
         <MaterialIcons name="arrow-forward" size={24} color="white" />
@@ -125,12 +130,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: '5%',
   },
+  inputText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     marginTop: '10%',
-    marginBottom: '30%',
+    marginBottom: '25%',
   },
   buttons: {
     backgroundColor: 'rgba(64, 142, 197, 0.2)',
@@ -146,7 +156,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   createButton: {
-    width: '95%',
+    width: '100%',
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 32,
     borderWidth: 1,
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 10,
-    marginTop: '10%',
+    marginTop: '5%',
   },
   createButtonText: {
     color: 'white',
