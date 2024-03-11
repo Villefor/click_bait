@@ -7,10 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { ShareButton } from '../components/ShareButton';
 
 const InviteScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const navigation = useNavigation();
 

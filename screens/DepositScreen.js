@@ -7,22 +7,16 @@ import { useNavigation } from "@react-navigation/native";
 
 const DepositScreen = () => {
   const { state, dispatch } = useAppContext();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(Number);
   const [error, setError] = useState(false);
 
   const navigation = useNavigation();
-  const handleSignUp = () => {
-    // Logic to handle sign-up
-  };
 
-  const setValues = () => {
-    dispatch({ type: actionTypes.SET_VALUES, payload: "newValue" });
+  const handlePayment = () => {
+    dispatch({ type: actionTypes.SET_VALUES, payload: value});
+    console.log("State after setting token:", state);
+    navigation.navigate("Payment");
   };
-
-  const eraseValues = () => {
-    dispatch({ type: actionTypes.SET_VALUES, payload: null });
-  };
-
 
   const handleAddValue = (amount) => {
     const newValue = +value + amount; // Using unary plus operator
@@ -30,12 +24,13 @@ const DepositScreen = () => {
       setError(true);
       return;
     }
-    setValue(newValue.toString());
+    setValue(newValue);
     setError(false);
+    console.log(value)
   };
 
   const handleResetValue = () => {
-    setValue('');
+    setValue(0);
     setError(false);
   };
 
@@ -66,7 +61,7 @@ const DepositScreen = () => {
       <TouchableOpacity onPress={handleResetValue} style={styles.input}>
         <Text style={styles.inputText}>Zerar valor</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignUp} style={styles.createButton}>
+      <TouchableOpacity onPress={handlePayment} style={styles.createButton}>
         <Text style={styles.createButtonText}>Pagar com pix</Text>
         <MaterialIcons name="arrow-forward" size={24} color="white" />
       </TouchableOpacity>

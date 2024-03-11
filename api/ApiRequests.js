@@ -1,21 +1,21 @@
 import { actionTypes } from "../context/context";
 import * as SecureStore from "expo-secure-store";
 
-const API_ENDPOINT = "https://coretoolshomologaapi.redeinova.com.br/api/auth";
+const POST_LOGIN_ENDPOINT = "https://clickbait-stg-544921dee7a5.herokuapp.com/users/auth/login";
 
-const LINKS_ENDPOINT =
-  "https://coretoolshomologaapi.redeinova.com.br/api/links?guidid=EB8DA9CA-D0FD-4A4E-ADAE-3AB251E98C50";
+const POST_CREATEUSER_ENDPOINT =
+  "https://clickbait-stg-544921dee7a5.herokuapp.com/users";
 
-export const loginUser = async (email, password) => {
+export const loginUser = async (mail, pass) => {
   try {
-    const response = await fetch(API_ENDPOINT, {
+    const response = await fetch(POST_LOGIN_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        login: email,
-        senha: password,
+        email: mail,
+        password: pass,
       }),
     });
 
@@ -33,7 +33,7 @@ export const loginUser = async (email, password) => {
 export const fetchLinks = async (dispatch) => {
   try {
     const token = await SecureStore.getItemAsync("token");
-    const response = await fetch(LINKS_ENDPOINT, {
+    const response = await fetch(POST_LOGIN_ENDPOINT, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

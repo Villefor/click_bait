@@ -5,7 +5,7 @@ const AppContext = createContext();
 const initialState = {
   token: null,
   links: [],
-  value: null,
+  values: null,
 };
 
 const actionTypes = {
@@ -21,7 +21,7 @@ const reducer = (state, action) => {
     case actionTypes.SET_LINKS:
       return { ...state, links: action.payload };
     case actionTypes.SET_VALUES:
-      return { ...state, value: action.payload };  
+      return { ...state, values: action.payload };  
       
 
     default:
