@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { RadioButton } from '../components/RadioButton';
 import { useNavigation } from "@react-navigation/native";
+import { loginUser } from "../api/ApiRequests";
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [CPF, setCPF] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -21,6 +24,7 @@ const SignUpScreen = () => {
     <LinearGradient
       colors={['rgba(8, 2, 74, 1)', 'rgba(0, 0, 0, 1)']}
       style={styles.container}>
+    <ScrollView style={styles.scrollview}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Cadastro</Text>
@@ -28,6 +32,17 @@ const SignUpScreen = () => {
       </View>
       <Text style={styles.welcomeText}>Seja bem vindo a ClickBait, inicie o seu cadastro</Text>
       <View style={styles.inputContainer}>
+
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Nome</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Ex: John Doe"
+            onChangeText={(text) => setName(text)}
+            value={name}
+          />
+        </View>
+
         <View style={styles.labelContainer}>
           <Text style={styles.label}>E-mail</Text>
           <TextInput
@@ -35,6 +50,16 @@ const SignUpScreen = () => {
             placeholder="Ex: janedoe@gmail.com"
             onChangeText={(text) => setEmail(text)}
             value={email}
+          />
+        </View>
+
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>CPF</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="CPF"
+            onChangeText={(text) => setCPF(text)}
+            value={CPF}
           />
         </View>
 
@@ -52,7 +77,7 @@ const SignUpScreen = () => {
           <Text style={styles.label}>WhatsApp Number</Text>
           <TextInput
             style={styles.input}
-            placeholder="Ex: +55 (85)97999-4483"
+            placeholder="Ex: +55 (99)99999-9999"
             onChangeText={(text) => setPhoneNumber(text)}
             value={phoneNumber}
           />
@@ -65,6 +90,7 @@ const SignUpScreen = () => {
         <Text style={styles.createButtonText}>Criar cadastro</Text>
         <MaterialIcons name="arrow-forward" size={24} color="white" />
       </TouchableOpacity>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -76,10 +102,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     padding: 20,
   },
+  scrollview: {
+    width: '100%',
+  },
   buttonContainer: {
+    width: '50%',
     marginBottom: 20,
   },
   button: {
+    alignItems: 'center',
     backgroundColor: 'rgba(64, 142, 197, 0.3)',
     borderRadius: 32,
     paddingHorizontal: '6%',

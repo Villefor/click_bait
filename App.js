@@ -10,6 +10,8 @@ import SignUpScreen from './screens/SignUpScreen';
 import DepositScreen from './screens/DepositScreen';
 import QrCodeScreen from './screens/QrCodeScreen';
 import InviteScreen from './screens/InviteScreen';
+import PaymentSuccessScreen from './screens/PaymentSuccessScreen';
+import PaymentFailedScreen from './screens/PaymentFailScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,9 +25,11 @@ const App = () => {
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="Deposit" component={DepositScreen} />
           <Stack.Screen name="Payment" component={QrCodeScreen} />
-          <Stack.Screen name="Convide" component={InviteScreen} />
+          <Stack.Screen name="Invite" component={InviteScreen} />
           <Stack.Screen name="Menu" component={MenuScreen} />
           <Stack.Screen name="List" component={ListScreen} />
+          <Stack.Screen name="PaymentSuccess" component={PaymentSuccessScreen} />
+          <Stack.Screen name="PaymentFailed" component={PaymentFailedScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>

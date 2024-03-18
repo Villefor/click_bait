@@ -4,7 +4,7 @@ import { useAppContext, actionTypes } from "../context/context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-// import QRCode from 'react-native-qrcode-svg';
+import QRCode from 'react-native-qrcode-svg';
 // import Clipboard from 'expo-clipboard';
 
 const QrCodeScreen = () => {
@@ -17,6 +17,10 @@ const QrCodeScreen = () => {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(value);
+  };
+
+  const handleSuccessOrFail = () => {
+    navigation.navigate("PaymentSuccess");
   };
 
   const handleShowQR = () => {
@@ -47,8 +51,10 @@ const QrCodeScreen = () => {
         </TouchableOpacity>
       </View>
       {showQR ? (
-        <View style={styles.qrContainer}>
-          {/* <QRCode value="http://awesome.link.qr" size={200} /> */}
+        <View style={styles.qrViewContainer}>
+          <View style={styles.qrContainer}>
+            <QRCode style={styles.qrCode} value="http://awesome.link.qr" size={200} />
+          </View>
         </View>
       ) : (
         <View style={styles.copyContainer}>
@@ -61,7 +67,7 @@ const QrCodeScreen = () => {
           <Text style={styles.copyButtonText}>Aguarde alguns instantes para que seja feita a confirmação do seu pagamento e liberação das suas tarefas!</Text>
         </View>
       )}
-      <TouchableOpacity  style={styles.createButton}>
+      <TouchableOpacity  style={styles.createButton} onPress={handleSuccessOrFail}>
         <Text style={styles.createButtonText}>Aguardando pagamento</Text>
         <MaterialIcons name="arrow-forward" size={24} color="white" />
       </TouchableOpacity>
@@ -72,8 +78,6 @@ const QrCodeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
     padding: 20,
   },
   buttonContainer: {
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginTop: '10%',
-    marginBottom: '25%',
+    marginBottom: '10%',
   },
   touchable: {
     flex: 1,
@@ -115,9 +119,22 @@ const styles = StyleSheet.create({
     height: 5,
     marginTop: 5,
   },
-  qrContainer: {
+  qrViewContainer:{
+    width: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '10%',
+  },
+  qrContainer: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '5%',
+    padding: 20,
+    borderRadius: 16,
+  },
+  qrCode: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   copyContainer: {
     width: '100%',
@@ -156,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 10,
-    marginTop: '50%',
+    marginTop: '25%',
   },
   createButtonText: {
     color: 'white',
