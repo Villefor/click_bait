@@ -5,23 +5,12 @@ import { useAppContext, actionTypes } from "../context/context";
 import * as SecureStore from "expo-secure-store";
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { handleLogout } from '../utils/useful/handleLogout';
 
 const MenuScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
   
   const { state, dispatch } = useAppContext();
   const navigation = useNavigation();
-
-  const handleLogout = async () => {
-    await SecureStore.deleteItemAsync("token");
-
-    dispatch({ type: actionTypes.SET_TOKEN, payload: null });
-
-    navigation.navigate("Login");
-  };
 
   return (
     <LinearGradient
@@ -37,7 +26,7 @@ const MenuScreen = () => {
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("Deposit")} style={styles.buttons}>
-          <Text style={styles.buttonText}>Depósito rápido</Text>
+          <Text style={styles.buttonText}>Responda as perguntas</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Pix")} style={styles.buttons}>
           <Text style={styles.buttonText}>Depósito pix</Text>
@@ -51,7 +40,7 @@ const MenuScreen = () => {
 
         <TouchableOpacity
           style={[styles.createButton]}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => handleLogout}
         >
           <Text style={styles.createButtonText}>Sair</Text>
         <MaterialIcons name="arrow-forward" size={24} color="white" />

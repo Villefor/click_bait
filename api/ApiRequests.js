@@ -20,8 +20,8 @@ export const loginUser = async (mail, pass) => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      const token = await response.json();
+      await SecureStore.setItemAsync('accessToken', token.data.accessToken);
     } else {
       throw new Error("Incorrect email or password. Please try again.");
     }
@@ -30,22 +30,30 @@ export const loginUser = async (mail, pass) => {
   }
 };
 
-export const fetchLinks = async (dispatch) => {
+export const createUser = async (email, name, password, cpf) => {
+  console.log(name, email, password, cpf);
   try {
-    const token = await SecureStore.getItemAsync("token");
-    const response = await fetch(POST_LOGIN_ENDPOINT, {
+    const response = await fetch(POST_CREATEUSER_ENDPOINT, {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        email: email,
+        passwd: password,
+        name: name,
+        cpf: cpf,
+      }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      dispatch({ type: actionTypes.SET_LINKS, payload: data.links });
+      dispatch({ type: actionTypes.SET_NAME, payload: data.name });
+      await SecureStore.setItemAsync('email', data.email);
     } else {
-      console.error("Failed to fetch links:", response.statusText);
+      console.log("Failed to create user", response);
     }
   } catch (error) {
-    console.error("Failed to fetch links:", error);
+    console.error(error);
   }
 };

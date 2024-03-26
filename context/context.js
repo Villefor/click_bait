@@ -6,12 +6,14 @@ const initialState = {
   token: null,
   links: [],
   values: null,
+  name: null,
 };
 
 const actionTypes = {
   SET_TOKEN: "SET_TOKEN",
   SET_LINKS: "SET_LINKS",
   SET_VALUES: "SET_VALUES",
+  SET_NAME: "SET_NAME",
 };
 
 const reducer = (state, action) => {
@@ -22,6 +24,8 @@ const reducer = (state, action) => {
       return { ...state, links: action.payload };
     case actionTypes.SET_VALUES:
       return { ...state, values: action.payload };  
+    case actionTypes.SET_NAME:
+      return { ...state, name: action.payload };  
       
 
     default:
