@@ -4,21 +4,41 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { RadioButton } from '../components/RadioButton';
 import { useNavigation } from "@react-navigation/native";
-import { loginUser } from "../api/ApiRequests";
+import { createUser } from "../api/ApiRequests";
+import { validateEmail, validateName, validateCPF, validatePassword, validatePhoneNumber, validateTerms } from '../components/Validations';
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [CPF, setCPF] = useState('');
+  const [cpf, setCPF] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const navigation = useNavigation();
 
-  const handleSignUp = () => {
-    navigation.navigate("Menu");
-  };
+  const handleSignUp = async () => {
+    const emailError = validateEmail(email);
+    const nameError = validateName(name);
+    const CPFError = validateCPF(cpf);
+    const passwordError = validatePassword(password);
+    const phoneNumberError = validatePhoneNumber(phoneNumber);
+    const validateTermsError = validateTerms(agreeToTerms);
+  
+    const errorMessage = [emailError, nameError, CPFError, passwordError, phoneNumberError, validateTermsError].filter(error => error).join('\n');
+  
+    if (errorMessage) {
+      alert(errorMessage);
+    } else {
+      try {
+        await createUser(email, name, password, cpf);
+        navigation.navigate("Login");
+      } catch (error) {
+        console.error("Error creating user:", error);
+        alert("An error occurred during user creation. Please try again later.");
+      }
+    }
+};
 
   return (
     <LinearGradient
@@ -59,7 +79,7 @@ const SignUpScreen = () => {
             style={styles.input}
             placeholder="CPF"
             onChangeText={(text) => setCPF(text)}
-            value={CPF}
+            value={cpf}
           />
         </View>
 
@@ -67,7 +87,7 @@ const SignUpScreen = () => {
           <Text style={styles.label}>Senha</Text>
           <TextInput
             style={styles.input}
-            placeholder="Ex: Jane Doe"
+            placeholder="Mínimo de 6 caracteres, Ex: 123456"
             onChangeText={(text) => setPassword(text)}
             value={password}
             // secureTextEntry={true}
@@ -77,7 +97,7 @@ const SignUpScreen = () => {
           <Text style={styles.label}>WhatsApp Number</Text>
           <TextInput
             style={styles.input}
-            placeholder="Ex: +55 (99)99999-9999"
+            placeholder="Ex:(11) 91234-5678"
             onChangeText={(text) => setPhoneNumber(text)}
             value={phoneNumber}
           />

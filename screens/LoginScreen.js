@@ -15,6 +15,7 @@ import { loginUser } from "../api/ApiRequests";
 import { useAppContext, actionTypes } from "../context/context";
 import * as SecureStore from "expo-secure-store";
 
+
 const LoginScreen = () => {
   const { dispatch } = useAppContext();
 
@@ -30,28 +31,21 @@ const LoginScreen = () => {
     try {
       setLoading(true);
 
-      if (email.length < 5 || password.length < 5) {
+      if (email.length < 6 || password.length < 6) {
         Alert.alert(
-          "Validation Error",
-          "Email and password must be at least 5 characters."
+          "Por favor, seu e-mail e senha devem possuir ao menos 6 caracteres",
         );
         return;
       }
 
-      const data = await loginUser(email, password);
+      await loginUser(email, password);
 
-      console.log(data.signature);
-
-      await SecureStore.setItemAsync("token", data.signature);
-
-      dispatch({ type: actionTypes.SET_TOKEN, payload: data.signature });
-
-      if (data.signature) {
+      if (SecureStore.getItemAsync('accessToken')){
         navigation.navigate("Menu");
       }
     } catch (error) {
       console.error("Login failed:", error);
-      Alert.alert("Error", error.message);
+      Alert.alert("Usuários e senha parecem estar incorretos");
     } finally {
       setLoading(false);
     }
