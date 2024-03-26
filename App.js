@@ -12,6 +12,7 @@ import QrCodeScreen from './screens/QrCodeScreen';
 import InviteScreen from './screens/InviteScreen';
 import PaymentSuccessScreen from './screens/PaymentSuccessScreen';
 import PaymentFailedScreen from './screens/PaymentFailScreen';
+import QuestionsScreen from './screens/QuestionsScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ const App = () => {
           <Stack.Screen name="Home" component={ClickScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Questionnaire" component={QuestionsScreen} />
           <Stack.Screen name="Deposit" component={DepositScreen} />
           <Stack.Screen name="Payment" component={QrCodeScreen} />
           <Stack.Screen name="Invite" component={InviteScreen} />

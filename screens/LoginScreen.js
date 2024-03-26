@@ -15,6 +15,7 @@ import { loginUser } from "../api/ApiRequests";
 import { useAppContext, actionTypes } from "../context/context";
 import * as SecureStore from "expo-secure-store";
 
+
 const LoginScreen = () => {
   const { dispatch } = useAppContext();
 
@@ -39,7 +40,7 @@ const LoginScreen = () => {
 
       await loginUser(email, password);
 
-      if (SecureStore.getItemAsync('accessToken')) {
+      if (SecureStore.getItemAsync('accessToken')){
         navigation.navigate("Menu");
       }
     } catch (error) {
